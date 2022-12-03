@@ -1,4 +1,5 @@
 import collections
+import os
 from datetime import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -54,7 +55,11 @@ def main():
     template = env.get_template('template.jinja2')
 
     company_age = calculate_company_age()
-    categories = read_wines_from_excel("wine.xlsx")
+    excel_filename = os.environ['EXCEL_FILE']
+    if os.path.isfile(excel_filename):
+        categories = read_wines_from_excel(excel_filename)
+    else:
+        raise FileNotFoundError
 
     rendered_page = template.render(
         company_age=f'{company_age} {get_year_ending(company_age)}',
