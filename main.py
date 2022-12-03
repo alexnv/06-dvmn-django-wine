@@ -23,10 +23,10 @@ def get_year_ending(year, first="год", second="года", third="лет"):
 
 
 def read_wines_from_excel(filename):
-    wines_data = pandas.read_excel(filename, sheet_name='Лист1', na_values=['N/A', 'NA'],
+    wine_categories_and_data = pandas.read_excel(filename, sheet_name='Лист1', na_values=['N/A', 'NA'],
                                    keep_default_na=False).to_dict('records')
     categories = collections.defaultdict(list)
-    for wine in wines_data:
+    for wine in read_wines_from_excel:
         categories[wine['Категория']].append({
             'Название': wine['Название'],
             'Сорт': wine['Сорт'],
@@ -54,11 +54,11 @@ def main():
     template = env.get_template('template.jinja2')
 
     company_age = calculate_company_age()
-    wines_data = read_wines_from_excel("wine.xlsx")
+    categories = read_wines_from_excel("wine.xlsx")
 
     rendered_page = template.render(
         company_age=f'{company_age} {get_year_ending(company_age)}',
-        categories=wines_data
+        categories=categories
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
