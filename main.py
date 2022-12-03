@@ -23,8 +23,8 @@ def get_year_ending(year, first="год", second="года", third="лет"):
         return third
 
 
-def read_wines_from_excel(filename):
-    wine_categories_and_data = pandas.read_excel(filename, sheet_name='Лист1', na_values=['N/A', 'NA'],
+def read_wines_from_excel(filepath):
+    wine_categories_and_data = pandas.read_excel(filepath, sheet_name='Лист1', na_values=['N/A', 'NA'],
                                    keep_default_na=False).to_dict('records')
     categories = collections.defaultdict(list)
     for wine in wine_categories_and_data:
@@ -55,9 +55,9 @@ def main():
     template = env.get_template('template.jinja2')
 
     company_age = calculate_company_age()
-    excel_filename = os.environ['EXCEL_FILE']
-    if os.path.isfile(excel_filename):
-        categories = read_wines_from_excel(excel_filename)
+    excel_filepath = os.environ['EXCEL_FILE']
+    if os.path.isfile(excel_filepath):
+        categories = read_wines_from_excel(excel_filepath)
     else:
         raise FileNotFoundError
 
