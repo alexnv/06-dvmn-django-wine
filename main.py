@@ -50,7 +50,7 @@ year_of_foundation = datetime(year=1920, month=1, day=1, hour=0)
 
 delta_years = (today - year_of_foundation).days // 365
 
-wines_data = read_wines_from_excel("wine3.xlsx")
+wines_data = read_wines_from_excel("wine.xlsx")
 
 rendered_page = template.render(
     company_age=f'{delta_years} {get_year_ending(delta_years)}',
