@@ -41,8 +41,8 @@ def read_wines_from_excel(filepath):
 
 def calculate_company_age():
     today = datetime.today()
-    year_of_foundation = 1920
-    delta_years = today.year - year_of_foundation
+    foundation_year = 1920
+    delta_years = today.year - foundation_year
     return delta_years
 
 
