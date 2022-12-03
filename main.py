@@ -24,10 +24,10 @@ def get_year_ending(year, first="год", second="года", third="лет"):
 
 
 def read_wines_from_excel(filepath):
-    wine_categories_and_data = pandas.read_excel(filepath, sheet_name='Лист1', na_values=['N/A', 'NA'],
+    categories_and_wines = pandas.read_excel(filepath, sheet_name='Лист1', na_values=['N/A', 'NA'],
                                    keep_default_na=False).to_dict('records')
     categories = collections.defaultdict(list)
-    for wine in wine_categories_and_data:
+    for wine in categories_and_wines:
         categories[wine['Категория']].append({
             'Название': wine['Название'],
             'Сорт': wine['Сорт'],
