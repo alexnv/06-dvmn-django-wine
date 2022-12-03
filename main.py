@@ -26,7 +26,7 @@ def read_wines_from_excel(filename):
     wine_categories_and_data = pandas.read_excel(filename, sheet_name='Лист1', na_values=['N/A', 'NA'],
                                    keep_default_na=False).to_dict('records')
     categories = collections.defaultdict(list)
-    for wine in read_wines_from_excel:
+    for wine in wine_categories_and_data:
         categories[wine['Категория']].append({
             'Название': wine['Название'],
             'Сорт': wine['Сорт'],
