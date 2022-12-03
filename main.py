@@ -38,27 +38,35 @@ def read_wines_from_excel(filename):
     return categories
 
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
+def calculate_company_age():
+    today = datetime.today()
+    year_of_foundation = datetime(year=1920, month=1, day=1, hour=0)
+    delta_years = (today - year_of_foundation).days // 365
+    return delta_years
 
-template = env.get_template('template.jinja2')
 
-today = datetime.today()
-year_of_foundation = datetime(year=1920, month=1, day=1, hour=0)
+def main():
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
 
-delta_years = (today - year_of_foundation).days // 365
+    template = env.get_template('template.jinja2')
 
-wines_data = read_wines_from_excel("wine.xlsx")
+    company_age = calculate_company_age()
+    wines_data = read_wines_from_excel("wine.xlsx")
 
-rendered_page = template.render(
-    company_age=f'{delta_years} {get_year_ending(delta_years)}',
-    categories=wines_data
-)
+    rendered_page = template.render(
+        company_age=f'{company_age} {get_year_ending(company_age)}',
+        categories=wines_data
+    )
 
-with open('index.html', 'w', encoding="utf8") as file:
-    file.write(rendered_page)
+    with open('index.html', 'w', encoding="utf8") as file:
+        file.write(rendered_page)
 
-server = HTTPServer(('127.0.0.1', 8080), SimpleHTTPRequestHandler)
-server.serve_forever()
+    server = HTTPServer(('127.0.0.1', 8080), SimpleHTTPRequestHandler)
+    server.serve_forever()
+
+
+if __name__ == "__main__":
+    main()
